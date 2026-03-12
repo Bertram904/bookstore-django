@@ -1,0 +1,252 @@
+# BookStore Microservices - Assignment 05
+# Mỗi service có database riêng (Database per Service)
+
+services:
+  customer-service:
+    build: ./customer-service
+    container_name: customer-service
+    ports: ["8001:8000"]
+    environment:
+      - CART_SERVICE_URL=http://cart-service:8000
+      - DEBUG=1
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_PASSWORD=admin123
+    volumes: ["./customer-service:/app"]
+    networks:
+      - microservice-network
+    healthcheck:
+      test: ["CMD-SHELL", "python -c 'import socket; socket.create_connection((\"localhost\", 8000), timeout=2)' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  staff-service:
+    build: ./staff-service
+    container_name: staff-service
+    ports: ["8002:8000"]
+    environment:
+      - BOOK_SERVICE_URL=http://book-service:8000
+      - DEBUG=0
+    volumes: ["./staff-service:/app"]
+    networks:
+      - microservice-network
+    healthcheck:
+      test: ["CMD-SHELL", "python -c 'import socket; socket.create_connection((\"localhost\", 8000), timeout=2)' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  manager-service:
+    build: ./manager-service
+    container_name: manager-service
+    ports: ["8003:8000"]
+    environment:
+      - CUSTOMER_SERVICE_URL=http://customer-service:8000
+      - BOOK_SERVICE_URL=http://book-service:8000
+      - ORDER_SERVICE_URL=http://order-service:8000
+      - DEBUG=0
+    volumes: ["./manager-service:/app"]
+    networks:
+      - microservice-network
+    healthcheck:
+      test: ["CMD-SHELL", "python -c 'import socket; socket.create_connection((\"localhost\", 8000), timeout=2)' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  catalog-service:
+    build: ./catalog-service
+    container_name: catalog-service
+    ports: ["8004:8000"]
+    environment:
+      - BOOK_SERVICE_URL=http://book-service:8000
+      - DEBUG=0
+    volumes: ["./catalog-service:/app"]
+    networks:
+      - microservice-network
+    healthcheck:
+      test: ["CMD-SHELL", "python -c 'import socket; socket.create_connection((\"localhost\", 8000), timeout=2)' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  book-service:
+    build: ./book-service
+    container_name: book-service
+    ports: ["8005:8000"]
+    environment:
+      - DEBUG=1
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_PASSWORD=admin123
+    volumes: ["./book-service:/app"]
+    networks:
+      - microservice-network
+    healthcheck:
+      test: ["CMD-SHELL", "python -c 'import socket; socket.create_connection((\"localhost\", 8000), timeout=2)' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  cart-service:
+    build: ./cart-service
+    container_name: cart-service
+    ports: ["8006:8000"]
+    environment:
+      - CUSTOMER_SERVICE_URL=http://customer-service:8000
+      - BOOK_SERVICE_URL=http://book-service:8000
+      - DEBUG=0
+    volumes: ["./cart-service:/app"]
+    networks:
+      - microservice-network
+    healthcheck:
+      test: ["CMD-SHELL", "python -c 'import socket; socket.create_connection((\"localhost\", 8000), timeout=2)' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  order-service:
+    build: ./order-service
+    container_name: order-service
+    ports: ["8007:8000"]
+    environment:
+      - CART_SERVICE_URL=http://cart-service:8000
+      - PAY_SERVICE_URL=http://pay-service:8000
+      - SHIP_SERVICE_URL=http://ship-service:8000
+      - BOOK_SERVICE_URL=http://book-service:8000
+      - DEBUG=0
+    volumes: ["./order-service:/app"]
+    networks:
+      - microservice-network
+    healthcheck:
+      test: ["CMD-SHELL", "python -c 'import socket; socket.create_connection((\"localhost\", 8000), timeout=2)' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  ship-service:
+    build: ./ship-service
+    container_name: ship-service
+    ports: ["8008:8000"]
+    environment:
+      - DEBUG=0
+    volumes: ["./ship-service:/app"]
+    networks:
+      - microservice-network
+    healthcheck:
+      test: ["CMD-SHELL", "python -c 'import socket; socket.create_connection((\"localhost\", 8000), timeout=2)' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  pay-service:
+    build: ./pay-service
+    container_name: pay-service
+    ports: ["8009:8000"]
+    environment:
+      - DEBUG=0
+    volumes: ["./pay-service:/app"]
+    networks:
+      - microservice-network
+    healthcheck:
+      test: ["CMD-SHELL", "python -c 'import socket; socket.create_connection((\"localhost\", 8000), timeout=2)' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  comment-rate-service:
+    build: ./comment-rate-service
+    container_name: comment-rate-service
+    ports: ["8010:8000"]
+    environment:
+      - BOOK_SERVICE_URL=http://book-service:8000
+      - DEBUG=0
+    volumes: ["./comment-rate-service:/app"]
+    networks:
+      - microservice-network
+    healthcheck:
+      test: ["CMD-SHELL", "python -c 'import socket; socket.create_connection((\"localhost\", 8000), timeout=2)' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  recommender-ai-service:
+    build: ./recommender-ai-service
+    container_name: recommender-ai-service
+    ports: ["8011:8000"]
+    environment:
+      - BOOK_SERVICE_URL=http://book-service:8000
+      - COMMENT_RATE_SERVICE_URL=http://comment-rate-service:8000
+      - DEBUG=0
+    volumes: ["./recommender-ai-service:/app"]
+    networks:
+      - microservice-network
+    healthcheck:
+      test: ["CMD-SHELL", "python -c 'import socket; socket.create_connection((\"localhost\", 8000), timeout=2)' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    ports: ["8000:8000"]
+    environment:
+      - CUSTOMER_SERVICE_URL=http://customer-service:8000
+      - STAFF_SERVICE_URL=http://staff-service:8000
+      - MANAGER_SERVICE_URL=http://manager-service:8000
+      - CATALOG_SERVICE_URL=http://catalog-service:8000
+      - BOOK_SERVICE_URL=http://book-service:8000
+      - CART_SERVICE_URL=http://cart-service:8000
+      - ORDER_SERVICE_URL=http://order-service:8000
+      - SHIP_SERVICE_URL=http://ship-service:8000
+      - PAY_SERVICE_URL=http://pay-service:8000
+      - COMMENT_RATE_SERVICE_URL=http://comment-rate-service:8000
+      - RECOMMENDER_SERVICE_URL=http://recommender-ai-service:8000
+      - DEBUG=1
+    depends_on:
+      customer-service:
+        condition: service_healthy
+      book-service:
+        condition: service_healthy
+      cart-service:
+        condition: service_healthy
+      order-service:
+        condition: service_healthy
+      ship-service:
+        condition: service_healthy
+      pay-service:
+        condition: service_healthy
+      comment-rate-service:
+        condition: service_healthy
+      recommender-ai-service:
+        condition: service_healthy
+      staff-service:
+        condition: service_healthy
+      manager-service:
+        condition: service_healthy
+      catalog-service:
+        condition: service_healthy
+    volumes: ["./api-gateway:/app"]
+    networks:
+      - microservice-network
+    healthcheck:
+      test: ["CMD-SHELL", "python -c 'import socket; socket.create_connection((\"localhost\", 8000), timeout=2)' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+networks:
+  microservice-network:
+    driver: bridge

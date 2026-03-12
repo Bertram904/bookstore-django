@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Giỏ hàng — BookStore{% endblock %}
+{% block content %}
+<section class="section cart-section">
+    <div class="container">
+        <h1 class="page-title">Giỏ hàng</h1>
+        <div id="cart-customer-prompt" class="card message-card">
+            <p>Nhập ID khách hàng (đã đăng ký) để xem giỏ hàng:</p>
+            <form id="cart-customer-form" class="form-inline">
+                <input type="number" id="cart-customer-id" min="1" placeholder="Customer ID" required>
+                <button type="submit" class="btn btn-primary">Xem giỏ</button>
+            </form>
+        </div>
+        <div id="cart-content" class="cart-content" style="display:none;">
+            <div class="cart-items" id="cart-items"></div>
+            <div class="cart-actions">
+                <a href="/checkout/" id="cart-checkout-link" class="btn btn-primary">Thanh toán</a>
+            </div>
+        </div>
+        <div id="cart-empty" class="empty-state" style="display:none;">
+            <p>Giỏ hàng trống.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var cid = '{{ customer_id }}' || app.getCustomerId();
+    if (cid) {
+        document.getElementById('cart-customer-id').value = cid;
+        app.loadCart(cid);
+    }
+    app.renderUserBlock('#header-user');
+    app.setupCartCustomerForm();
+});
+</script>
+{% endblock %}

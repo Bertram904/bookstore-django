@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Đăng xuất — BookStore{% endblock %}
+{% block content %}
+<section class="section auth-page">
+    <div class="container">
+        <div class="form-card">
+            <h2>Đăng xuất</h2>
+            <p>Bạn đã đăng xuất thành công. Hệ thống sẽ trở về trang chủ trong giây lát.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block extra_js %}
+<script>
+localStorage.removeItem('bookstore_customer_id');
+window.setTimeout(function() {
+    window.location.href = '/';
+}, 900);
+</script>
+{% endblock %}

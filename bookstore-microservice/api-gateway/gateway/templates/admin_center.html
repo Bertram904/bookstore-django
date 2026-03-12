@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Admin Center — BookStore{% endblock %}
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1 class="page-title">Admin Center</h1>
+        <p class="section-desc">Khu vực quản trị nhanh để thêm dữ liệu và truy cập Django Admin.</p>
+
+        <div class="stats-grid">
+            <div class="card">
+                <h2 class="section-title">Thêm khách hàng</h2>
+                <form id="register-form" class="form-card">
+                    <div class="form-group">
+                        <label for="reg-name">Họ tên</label>
+                        <input type="text" id="reg-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-email">Email</label>
+                        <input type="email" id="reg-email" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Tạo khách hàng</button>
+                </form>
+                <div id="register-message" class="message"></div>
+            </div>
+
+            <div class="card">
+                <h2 class="section-title">Link Django Admin</h2>
+                <p class="section-desc">Đăng nhập để thêm/sửa dữ liệu trực tiếp trong admin.</p>
+                <p><a class="btn btn-primary" href="http://localhost:8005/admin/" target="_blank" rel="noreferrer">Book Admin</a></p>
+                <p><a class="btn btn-primary" href="http://localhost:8001/admin/" target="_blank" rel="noreferrer">Customer Admin</a></p>
+                <p class="section-desc">Tài khoản mặc định: <code>admin</code> / <code>admin123</code></p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="section-title">Thêm sách nhanh</h2>
+            <form id="staff-add-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="staff-title">Tên sách</label>
+                        <input type="text" id="staff-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="staff-author">Tác giả</label>
+                        <input type="text" id="staff-author" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="staff-price">Giá</label>
+                        <input type="number" id="staff-price" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="staff-stock">Tồn kho</label>
+                        <input type="number" id="staff-stock" min="0" value="0">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Thêm sách</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    app.renderUserBlock('#header-user');
+    app.setupRegisterForm();
+    app.setupStaffForms();
+});
+</script>
+{% endblock %}

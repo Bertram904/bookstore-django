@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Đăng nhập — BookStore{% endblock %}
+{% block content %}
+<section class="section auth-page">
+    <div class="container">
+        <div class="auth-grid">
+            <div class="form-card auth-box">
+                <h2>Đăng nhập</h2>
+                <p>Đăng nhập để tiếp tục mua sắm như trên Amazon.</p>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" required placeholder="email@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-id">ID khách hàng (nếu đã có)</label>
+                        <input type="number" id="login-id" placeholder="Nhập ID khách hàng nếu nhớ">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                </form>
+                <div id="login-message" class="message"></div>
+                <p class="auth-help">Chưa có tài khoản? <a href="/register/">Đăng ký ngay</a></p>
+            </div>
+            <div class="form-card auth-ads">
+                <h3>Mua sắm thông minh</h3>
+                <p>Tạo tài khoản để quản lý giỏ hàng, theo dõi đơn hàng và nhận ưu đãi.</p>
+                <a href="/register/" class="btn btn-primary">Tạo tài khoản</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    app.renderUserBlock('#header-user');
+    app.setupLoginForm();
+});
+</script>
+{% endblock %}
