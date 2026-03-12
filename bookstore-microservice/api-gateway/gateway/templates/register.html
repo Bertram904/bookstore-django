@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Đăng ký — BookStore{% endblock %}
+{% block content %}
+<section class="section auth-page">
+    <div class="container">
+        <div class="auth-grid">
+            <div class="form-card auth-box">
+                <h2>Đăng ký</h2>
+                <p>Đăng ký tài khoản nhanh chóng để sử dụng đầy đủ tính năng của hệ thống.</p>
+                <form id="register-form" class="form-card">
+                    <div class="form-group">
+                        <label for="reg-name">Họ tên</label>
+                        <input type="text" id="reg-name" required placeholder="Nguyễn Văn A">
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-email">Email</label>
+                        <input type="email" id="reg-email" required placeholder="email@example.com">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Đăng ký</button>
+                </form>
+                <div id="register-message" class="message"></div>
+                <p class="auth-help">Đã có tài khoản? <a href="/login/">Đăng nhập</a></p>
+            </div>
+            <div class="form-card auth-ads">
+                <h3>Lợi ích khi có tài khoản</h3>
+                <ul>
+                    <li>Tạo giỏ hàng tự động</li>
+                    <li>Quản lý đơn hàng</li>
+                    <li>Đề xuất sách cá nhân</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    app.renderUserBlock('#header-user');
+    app.setupRegisterForm();
+});
+</script>
+{% endblock %}

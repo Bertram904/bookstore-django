@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Chi tiết sách — BookStore{% endblock %}
+{% block content %}
+<section class="section book-detail-section">
+    <div class="container">
+        <div id="book-detail" class="book-detail-card">
+            <p class="loading">Đang tải...</p>
+        </div>
+        <div class="book-actions">
+            <form id="add-to-cart-form" class="form-inline">
+                <input type="hidden" id="detail-book-id" value="{{ book_id }}">
+                <input type="number" id="detail-customer-id" min="1" placeholder="Customer ID" required>
+                <input type="number" id="detail-quantity" min="1" value="1">
+                <button type="submit" class="btn btn-primary">Thêm vào giỏ</button>
+            </form>
+        </div>
+        <div class="reviews-block">
+            <h2>Đánh giá (FR5)</h2>
+            <div id="reviews-list"></div>
+            <form id="review-form" class="form-card">
+                <input type="hidden" id="review-book-id" value="{{ book_id }}">
+                <div class="form-group">
+                    <label>Customer ID</label>
+                    <input type="number" id="review-customer-id" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label>Điểm (1-5)</label>
+                    <input type="number" id="review-rating" min="1" max="5" value="5" required>
+                </div>
+                <div class="form-group">
+                    <label>Nhận xét</label>
+                    <textarea id="review-comment" rows="2"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var bookId = '{{ book_id }}';
+    app.loadBookDetail(bookId);
+    app.loadReviews(bookId);
+    app.setupBookDetailForms(bookId);
+});
+</script>
+{% endblock %}

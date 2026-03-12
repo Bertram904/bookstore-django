@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Thanh toán — BookStore{% endblock %}
+{% block content %}
+<section class="section checkout-section">
+    <div class="container">
+        <h1 class="page-title">Đặt hàng (FR4: Order → Pay → Ship)</h1>
+        <div class="checkout-grid">
+            <div class="form-card checkout-card">
+                <h2>Thông tin giao hàng</h2>
+                <form id="checkout-form" class="form-card">
+                    <div class="form-group">
+                        <label for="checkout-customer-id">ID khách hàng</label>
+                        <input type="number" id="checkout-customer-id" min="1" required placeholder="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout-address">Địa chỉ giao hàng</label>
+                        <input type="text" id="checkout-address" required placeholder="Số nhà, đường, quận, thành phố">
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout-shipper">Chọn đơn vị giao hàng</label>
+                        <select id="checkout-shipper" required>
+                            <option value="">-- Vui lòng chọn --</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Đặt hàng</button>
+                </form>
+                <div id="checkout-message" class="message"></div>
+            </div>
+            <div class="form-card order-summary">
+                <h2>Tóm tắt giỏ hàng</h2>
+                <p>Chọn khách hàng và nhấn đặt hàng để tự động tính toán tổng từ cart-service + book-service (FR4 saga).</p>
+                <ul>
+                    <li>Lấy giỏ hàng theo customer_id</li>
+                    <li>Dự toán phí vận chuyển dựa trên shipper</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var cid = app.getCustomerId();
+    if (cid) document.getElementById('checkout-customer-id').value = cid;
+    app.renderUserBlock('#header-user');
+    app.setupCheckoutForm();
+});
+</script>
+{% endblock %}

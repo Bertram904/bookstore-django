@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Quản lý sách (Staff) — BookStore{% endblock %}
+{% block content %}
+<section class="section staff-section">
+    <div class="container">
+        <h1 class="page-title">Quản lý sách (FR2)</h1>
+        <div class="form-card add-book-form">
+            <h2>Thêm sách mới</h2>
+            <form id="staff-add-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="staff-title">Tên sách</label>
+                        <input type="text" id="staff-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="staff-author">Tác giả</label>
+                        <input type="text" id="staff-author" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="staff-price">Giá</label>
+                        <input type="number" id="staff-price" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="staff-stock">Tồn kho</label>
+                        <input type="number" id="staff-stock" min="0" value="0">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Thêm sách</button>
+            </form>
+        </div>
+        <div class="staff-list">
+            <h2>Danh sách sách</h2>
+            <div id="staff-books-list" class="table-wrap">
+                <p class="loading">Đang tải...</p>
+            </div>
+        </div>
+    </div>
+</section>
+<div id="staff-edit-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="modal-close">&times;</span>
+        <h2>Sửa sách</h2>
+        <form id="staff-edit-form">
+            <input type="hidden" id="edit-book-id">
+            <div class="form-group"><label>Tên sách</label><input type="text" id="edit-title" required></div>
+            <div class="form-group"><label>Tác giả</label><input type="text" id="edit-author" required></div>
+            <div class="form-group"><label>Giá</label><input type="number" id="edit-price" step="0.01" min="0" required></div>
+            <div class="form-group"><label>Tồn kho</label><input type="number" id="edit-stock" min="0"></div>
+            <button type="submit" class="btn btn-primary">Lưu</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    app.loadStaffBooks();
+    app.setupStaffForms();
+});
+</script>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — BookStore{% endblock %}
+{% block content %}
+<section class="section manager-section">
+    <div class="container">
+        <h1 class="page-title">Dashboard quản lý</h1>
+        <div class="stats-grid" id="manager-stats">
+            <p class="loading">Đang tải...</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    app.loadManagerDashboard();
+});
+</script>
+{% endblock %}

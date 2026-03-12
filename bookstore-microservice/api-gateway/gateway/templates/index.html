@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Trang chủ — BookStore{% endblock %}
+{% block content %}
+<section class="hero">
+    <div class="hero-inner">
+        <h1 class="hero-title">Chào mừng đến BookStore</h1>
+        <p class="hero-subtitle">Khám phá sách và đặt hàng qua hệ thống microservices</p>
+    </div>
+</section>
+<section class="section register-section" id="register-section">
+    <div class="container">
+        <h2 class="section-title">Đăng ký khách hàng</h2>
+        <p class="section-desc">Đăng ký để có giỏ hàng riêng (FR1: tự tạo giỏ khi đăng ký)</p>
+        <form id="register-form" class="form-card">
+            <div class="form-group">
+                <label for="reg-name">Họ tên</label>
+                <input type="text" id="reg-name" required placeholder="Nguyễn Văn A">
+            </div>
+            <div class="form-group">
+                <label for="reg-email">Email</label>
+                <input type="email" id="reg-email" required placeholder="email@example.com">
+            </div>
+            <button type="submit" class="btn btn-primary">Đăng ký</button>
+        </form>
+        <div id="register-message" class="message"></div>
+    </div>
+</section>
+<section class="section books-section">
+    <div class="container">
+        <h2 class="section-title">Danh mục sách</h2>
+        <div class="books-grid" id="books-grid">
+            <p class="loading">Đang tải...</p>
+        </div>
+    </div>
+</section>
+<section class="section recommend-section">
+    <div class="container">
+        <h2 class="section-title">Gợi ý đọc</h2>
+        <div class="books-grid" id="recommend-grid">
+            <p class="loading">Đang tải...</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    app.loadBooks('#books-grid', '/api/books/');
+    app.loadBooks('#recommend-grid', '/api/recommend/?limit=6');
+    app.renderUserBlock('#header-user');
+    app.setupRegisterForm();
+});
+</script>
+{% endblock %}
